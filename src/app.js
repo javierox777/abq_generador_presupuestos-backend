@@ -46,6 +46,8 @@ app.use("/api/client", require("./router/client/router.client"))
 app.use("/api/task", require("./router/task/router.task"))
 //presupuesto
 app.use("/api/presupuesto/", require("./router/presupuesto/router.presupuesto"))
+//orden de compra
+app.use("/api/ordencompra/", require("./router/ordenCompra/router.ordenCompra"))
 //supplies
 app.use("/api/supplies", require("./router/supplies/router.supplies"))
 
