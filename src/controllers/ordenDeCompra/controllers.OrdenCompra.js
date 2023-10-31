@@ -9,7 +9,7 @@ ctrls.createOC = async(req, res)=>{
     try {
         console.log("presupuesto", req.body);
       
-        const { tableData, agent, client, date, Observaciones} = req.body;
+        const { tableData, agent, client, Observaciones} = req.body;
       
         const data = new OC({
           tableData,
@@ -17,7 +17,7 @@ ctrls.createOC = async(req, res)=>{
           client,
           Observaciones,
 
-          date,
+          date:moment().format('YYYY-MM-DD') ,
         });
       
         await data.save();
