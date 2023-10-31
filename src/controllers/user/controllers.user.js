@@ -10,6 +10,12 @@ ctrls.allSeller = async(req, res)=>{
     }
 
 
+ctrls.allUser = async(req, res)=>{
+      const data = await USER.find()
+      res.json({data})
+      }    
+
+
 ctrls.signup = async (req, res) => {
   const { name, lastname,rut, address, phone, email, password } = req.body;
 
