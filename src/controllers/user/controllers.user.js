@@ -14,7 +14,8 @@ ctrls.allUser = async (req, res) => {
 };
 
 ctrls.signup = async (req, res) => {
-  const { name, lastname, rut, address, phone, email, password } = req.body;
+  const { name, lastname, rut, address, phone, email, password, role } =
+    req.body;
 
   const data = new USER({
     name,
@@ -23,7 +24,7 @@ ctrls.signup = async (req, res) => {
     address,
     phone,
     email,
-    role: 'admin',
+    role,
     password,
   });
   const newEmail = await USER.findOne({ email: email });
