@@ -71,7 +71,7 @@ ctrls.login = async (req, res) => {
 };
 
 ctrls.updateUser = async (req, res) => {
-  if (req.body.password == '') {
+  if (req.body.password == '' || !req.body.password) {
     console.log('password vacia');
     const { name, lastname, rut, address, phone, email } = req.body;
     const data = await USER.findOneAndUpdate(
