@@ -50,6 +50,8 @@ app.use("/api/presupuesto/", require("./router/presupuesto/router.presupuesto"))
 app.use("/api/ordencompra/", require("./router/ordenCompra/router.ordenCompra"))
 //supplies
 app.use("/api/supplies", require("./router/supplies/router.supplies"))
+//trabajo
+app.use("/api/trabajo", require("./router/trabajo/router.trabajos"))
 
 
 
