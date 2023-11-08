@@ -1,4 +1,4 @@
-const {createJob, findJobById, allJobs, deleteJob} = require("../../controllers/trabajos/controllers.trabajos")
+const {createJob, findJobById, allJobs, deleteJob, updateJob} = require("../../controllers/trabajos/controllers.trabajos")
 const {Router} = require("express")
 const router = Router()
 
@@ -8,6 +8,7 @@ const router = Router()
 router.post("/createtrabajo", createJob)
 router.get("/forid/:id", findJobById)
 router.get("/alljob", allJobs)
+router.put("/updatejob/:id", updateJob)
 router.delete("/deletejob/:id", deleteJob)
 
 
