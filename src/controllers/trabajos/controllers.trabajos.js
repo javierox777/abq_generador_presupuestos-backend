@@ -89,6 +89,29 @@ ctrls.allJobs = async (req, res) => {
     }
 }
 
+ctrls.allJobsForIdCliend = async (req, res) => {
+    try {
+        const data = await TRABAJO.find({cliente:req.params.id})
+        if (!data) {
+            res.status(404).json({
+                message: "error",
+                body: "not found"
+            })
+        }
+       console.log(data)
+        res.status(200).json({
+            message: "success",
+            body: data
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "error",
+            body: error
+        })
+    }
+}
+
+
 ctrls.deleteJob = async (req, res) => {
     try {
         const data = await TRABAJO.findByIdAndDelete({ _id: req.params.id })
