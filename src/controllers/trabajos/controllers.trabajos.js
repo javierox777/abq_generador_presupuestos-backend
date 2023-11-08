@@ -69,7 +69,7 @@ ctrls.findJobById = async (req, res) => {
 
 ctrls.allJobs = async (req, res) => {
     try {
-        const data = await TRABAJO.find()
+        const data = await TRABAJO.find().populate("presupuesto")
         if (!data) {
             res.status(404).json({
                 message: "error",
