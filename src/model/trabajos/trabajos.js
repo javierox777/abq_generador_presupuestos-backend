@@ -9,6 +9,7 @@ const schemaSale = new Schema({
     fechaEnd:String,
     presupuesto:{ type: Schema.Types.ObjectId, ref: 'presupuestos' },
     gastos:[]
+    
 })
 
 
