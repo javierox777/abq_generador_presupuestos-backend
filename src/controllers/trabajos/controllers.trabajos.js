@@ -12,6 +12,7 @@ try {
             supervisor,
             progress,
             fechaEnd,
+            comentarios,
             gastos,
             presupuesto,
             ordencompra } = req.body
@@ -21,6 +22,7 @@ try {
             trabajadores,
             supervisor,
             progress,
+            comentarios,
             fechaEnd,
             gastos,
             presupuesto,
@@ -164,6 +166,7 @@ ctrls.updateJob = async (req, res) => {
             supervisor,
             progress,
             fechaEnd,
+            comentarios,
             gastos,
             presupuesto,
             ordencompra } = req.body
@@ -175,6 +178,7 @@ ctrls.updateJob = async (req, res) => {
             supervisor,
             progress,
             fechaEnd,
+            comentarios,
             gastos,
             presupuesto,
             ordencompra

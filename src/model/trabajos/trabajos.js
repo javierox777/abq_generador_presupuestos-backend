@@ -5,6 +5,7 @@ const schemaSale = new Schema({
     numero:Number,
     supervisor:String,
     trabajadores:[], 
+    comentarios:[],
     progress:Number,  
     fechaEnd:String,
     ordencompra:{ type: Schema.Types.ObjectId, ref: 'ordencompras' },
