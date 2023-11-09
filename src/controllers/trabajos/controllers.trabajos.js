@@ -160,18 +160,7 @@ ctrls.deleteJob = async (req, res) => {
 
 ctrls.updateJob = async (req, res) => {
     try {
-        const { date,
-            numero,
-            trabajadores,
-            supervisor,
-            progress,
-            fechaEnd,
-            comentarios,
-            gastos,
-            presupuesto,
-            ordencompra } = req.body
-
-        const data = await TRABAJO.findOneAndUpdate({ _id: req.params.id }, {
+        const {
             date,
             numero,
             trabajadores,
@@ -182,25 +171,45 @@ ctrls.updateJob = async (req, res) => {
             gastos,
             presupuesto,
             ordencompra
-        }, { new: true })
+        } = req.body;
+
+        
+        const updateFields = {
+            date,
+            numero,
+            trabajadores,
+            supervisor,
+            progress,
+            fechaEnd,
+            comentarios,
+            gastos,
+            presupuesto,
+            ordencompra
+        };
+
+        
+        Object.keys(updateFields).forEach(key => updateFields[key] === undefined && delete updateFields[key]);
+
+        const data = await TRABAJO.findOneAndUpdate({ _id: req.params.id }, updateFields, { new: true });
 
         if (!data) {
-            res.status(404).json({
+            return res.status(404).json({
                 message: "error",
                 body: "not found"
-            })
+            });
         }
-
-        res.status(200).json({
+        console.log(data)
+        return res.status(200).json({
             message: "success",
             body: data
-        })
+        });
     } catch (error) {
-
-        res.status(500).json({
+        console.error('Error en el servidor:', error);
+        return res.status(500).json({
             message: "error",
             body: error
-        })
+        });
     }
-}
+};
+
 module.exports = ctrls
