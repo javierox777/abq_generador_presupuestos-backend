@@ -13,7 +13,8 @@ try {
             progress,
             fechaEnd,
             gastos,
-            presupuesto } = req.body
+            presupuesto,
+            ordencompra } = req.body
         const data = new TRABAJO({
             date,
             numero,
@@ -22,7 +23,8 @@ try {
             progress,
             fechaEnd,
             gastos,
-            presupuesto
+            presupuesto,
+            ordencompra
         })
         await data.save()
         res.json({
@@ -69,7 +71,13 @@ ctrls.findJobById = async (req, res) => {
 
 ctrls.allJobs = async (req, res) => {
     try {
-        const data = await TRABAJO.find().populate("presupuesto")
+        const data = await TRABAJO.find().populate({
+            path: 'presupuesto',
+            populate: {
+                path: 'client',
+                model: 'clients',
+            },
+        });
         if (!data) {
             res.status(404).json({
                 message: "error",
@@ -98,14 +106,13 @@ ctrls.allJobsForIdCliend = async (req, res) => {
             },
         });
         
-        console.log('Data:', data); // Agrega este registro de depuración
+  
 
         const filteredData = data.filter((element) => {
             return element.presupuesto && element.presupuesto.client && element.presupuesto.client._id && element.presupuesto.client._id.toString() === req.params.id;
         });
 
-        console.log('Filtered Data:', filteredData); // Agrega este registro de depuración
-
+        console.log('Filtered Data:', filteredData); 
         if (!filteredData.length) {
             return res.status(404).json({
                 message: "error",
@@ -158,7 +165,8 @@ ctrls.updateJob = async (req, res) => {
             progress,
             fechaEnd,
             gastos,
-            presupuesto } = req.body
+            presupuesto,
+            ordencompra } = req.body
 
         const data = await TRABAJO.findOneAndUpdate({ _id: req.params.id }, {
             date,
@@ -168,7 +176,8 @@ ctrls.updateJob = async (req, res) => {
             progress,
             fechaEnd,
             gastos,
-            presupuesto
+            presupuesto,
+            ordencompra
         }, { new: true })
 
         if (!data) {
