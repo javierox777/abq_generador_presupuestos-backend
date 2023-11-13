@@ -1,14 +1,15 @@
-const mongoose = require("mongoose")
+const  {model, Schema } = require("mongoose")
+const  mongoose = require("mongoose")
 var AutoIncrement = require('mongoose-sequence')(mongoose);
 
 
 
-const schemaPresupuesto = new mongoose.Schema({
+const schemaPresupuesto = new Schema({
   number:Number,
   NameProyect:String,
   codework:String,
   discount:String,
-  client:{},
+  client:{ type: Schema.Types.ObjectId, ref: 'clients' },
   materialList:[],
   observation:String,
   state:Boolean,
@@ -30,7 +31,7 @@ const schemaPresupuesto = new mongoose.Schema({
 schemaPresupuesto.plugin(AutoIncrement, {id:'number_seq',inc_field: 'number'});//auto incremento
 
 
-module.exports = mongoose.model('presupuestos', schemaPresupuesto);
+module.exports = model('presupuestos', schemaPresupuesto);
 
 
 
@@ -38,4 +39,3 @@ module.exports = mongoose.model('presupuestos', schemaPresupuesto);
 
  
 
-// module.exports = mongoose.model("presupuestos", ItemModel)

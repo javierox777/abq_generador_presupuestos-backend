@@ -12,17 +12,21 @@ try {
             supervisor,
             progress,
             fechaEnd,
+            comentarios,
             gastos,
-            presupuesto } = req.body
+            presupuesto,
+            ordencompra } = req.body
         const data = new TRABAJO({
             date,
             numero,
             trabajadores,
             supervisor,
             progress,
+            comentarios,
             fechaEnd,
             gastos,
-            presupuesto
+            presupuesto,
+            ordencompra
         })
         await data.save()
         res.json({
@@ -69,7 +73,13 @@ ctrls.findJobById = async (req, res) => {
 
 ctrls.allJobs = async (req, res) => {
     try {
-        const data = await TRABAJO.find().populate("presupuesto")
+        const data = await TRABAJO.find().populate({
+            path: 'presupuesto',
+            populate: {
+                path: 'client',
+                model: 'clients',
+            },
+        });
         if (!data) {
             res.status(404).json({
                 message: "error",
@@ -88,29 +98,41 @@ ctrls.allJobs = async (req, res) => {
         })
     }
 }
-
 ctrls.allJobsForIdCliend = async (req, res) => {
     try {
-        const data = await TRABAJO.find({cliente:req.params.id})
-        if (!data) {
-            res.status(404).json({
+        const data = await TRABAJO.find().populate({
+            path: 'presupuesto',
+            populate: {
+                path: 'client',
+                model: 'clients',
+            },
+        });
+        
+  
+
+        const filteredData = data.filter((element) => {
+            return element.presupuesto && element.presupuesto.client && element.presupuesto.client._id && element.presupuesto.client._id.toString() === req.params.id;
+        });
+
+        console.log('Filtered Data:', filteredData); 
+        if (!filteredData.length) {
+            return res.status(404).json({
                 message: "error",
                 body: "not found"
-            })
+            });
         }
-       console.log(data)
+
         res.status(200).json({
             message: "success",
-            body: data
-        })
+            body: filteredData
+        });
     } catch (error) {
         res.status(500).json({
             message: "error",
             body: error
-        })
+        });
     }
 }
-
 
 ctrls.deleteJob = async (req, res) => {
     try {
@@ -138,43 +160,56 @@ ctrls.deleteJob = async (req, res) => {
 
 ctrls.updateJob = async (req, res) => {
     try {
-        const { date,
-            numero,
-            trabajadores,
-            supervisor,
-            progress,
-            fechaEnd,
-            gastos,
-            presupuesto } = req.body
-
-        const data = await TRABAJO.findOneAndUpdate({ _id: req.params.id }, {
+        const {
             date,
             numero,
             trabajadores,
             supervisor,
             progress,
             fechaEnd,
+            comentarios,
             gastos,
-            presupuesto
-        }, { new: true })
+            presupuesto,
+            ordencompra
+        } = req.body;
+
+        
+        const updateFields = {
+            date,
+            numero,
+            trabajadores,
+            supervisor,
+            progress,
+            fechaEnd,
+            comentarios,
+            gastos,
+            presupuesto,
+            ordencompra
+        };
+
+        
+        Object.keys(updateFields).forEach(key => updateFields[key] === undefined && delete updateFields[key]);
+
+        const data = await TRABAJO.findOneAndUpdate({ _id: req.params.id }, updateFields, { new: true });
 
         if (!data) {
-            res.status(404).json({
+            return res.status(404).json({
                 message: "error",
                 body: "not found"
-            })
+            });
         }
-
-        res.status(200).json({
+        console.log(data)
+        return res.status(200).json({
             message: "success",
             body: data
-        })
+        });
     } catch (error) {
-
-        res.status(500).json({
+        console.error('Error en el servidor:', error);
+        return res.status(500).json({
             message: "error",
             body: error
-        })
+        });
     }
-}
+};
+
 module.exports = ctrls
