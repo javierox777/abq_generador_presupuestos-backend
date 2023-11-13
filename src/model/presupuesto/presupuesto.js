@@ -5,15 +5,12 @@ var AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const schemaPresupuesto = new mongoose.Schema({
   number:Number,
-  agent:String,
-  brand:String,
+  NameProyect:String,
+  codework:String,
   discount:String,
   client:{},
   materialList:[],
-  modelo:String,
   observation:String,
-  patent:String,
-  service:String,
   state:Boolean,
   date:String, 
   nOrdencompra:String,

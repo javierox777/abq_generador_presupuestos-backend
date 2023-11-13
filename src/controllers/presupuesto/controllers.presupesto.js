@@ -8,14 +8,15 @@ ctrls.createPresupuesto = async(req, res)=>{
  try {
      console.log("presupuesto", req.body)
      const { 
-        agent,
-        brand,
+        NameProyect,
+        codework,
+    
         discount,
         client,
         materialList,
-        modelo,
+        
         observation,
-        patent,
+  
         service,
         state,
         user,
@@ -23,14 +24,14 @@ ctrls.createPresupuesto = async(req, res)=>{
         totalHours,
         encargado,} =req.body
     const data = new PRESUPUESTO({ 
-        agent,
-        brand,
+        NameProyect,
+        codework,
         discount,
         client,
         materialList,
-        modelo,
+        
         observation,
-        patent,
+  
         service,
         state,
         date:moment().format('YYYY-MM-DD') ,
@@ -141,13 +142,13 @@ ctrls.updatePresupuesto = async(req, res)=>{
 
 ctrls.updateAllPresupuesto = async(req, res)=>{
     console.log("id a update", req.body)
-    const { agent, brand,  discount,  modelo, observation, patent, service, date,  formaDePago,
+    const { NameProyect,  discount,  observation,  service, date,  formaDePago,
         plazoEntrega,
         nInforme,
         faena, } = req.body
 
     const update = await PRESUPUESTO.findOneAndUpdate({ _id:req.params.id},{
-         agent, brand,  discount,  modelo, observation, patent, service, date, formaDePago,
+         NameProyect,  discount,  observation,  service, date, formaDePago,
         plazoEntrega,
         nInforme,
         faena,

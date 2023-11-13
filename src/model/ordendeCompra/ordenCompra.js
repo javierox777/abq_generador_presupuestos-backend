@@ -7,7 +7,7 @@ const schemaOrdenCompra = new mongoose.Schema({
   client:{},
   tableData:[],
   date:String,
-  agent:String,
+  NameProyect:String,
   Observaciones:String
  
 
