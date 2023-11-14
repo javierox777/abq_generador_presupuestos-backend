@@ -55,7 +55,8 @@ ctrls.createPresupuesto = async(req, res)=>{
 
 
 ctrls.allPresupuestos = async (req, res) => {
-    const data = await PRESUPUESTO.find().sort({"number":-1})
+    const data = await PRESUPUESTO.find().populate("client").sort({"number":-1})
+   
     res.json(data);
 };
 
