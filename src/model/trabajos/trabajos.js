@@ -15,7 +15,7 @@ const schemaSale = new Schema({
     fechaEnd:String,
     ordencompra:{ type: Schema.Types.ObjectId, ref: 'ordencompras' },
     presupuesto:{ type: Schema.Types.ObjectId, ref: 'presupuestos' },
-    gastos:[]
+    gastos:[{numero:Number, nombre:String, descripcion:String, cantidad:Number, precioUnitario:Number,  total:Number}]
     
 })
 

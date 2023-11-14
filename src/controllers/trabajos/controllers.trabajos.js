@@ -13,9 +13,8 @@ try {
             progress,
             fechaEnd,
             comentarios,
-            gastos,
             presupuesto,
-            ordencompra } = req.body
+             } = req.body
         const data = new TRABAJO({
             date,
             numero,
@@ -24,9 +23,9 @@ try {
             progress,
             comentarios,
             fechaEnd,
-            gastos,
+            gastos:0,
             presupuesto,
-            ordencompra
+           
         })
         await data.save()
         res.json({
@@ -170,7 +169,7 @@ ctrls.updateJob = async (req, res) => {
             comentarios,
             gastos,
             presupuesto,
-            ordencompra
+        
         } = req.body;
 
         
@@ -184,7 +183,7 @@ ctrls.updateJob = async (req, res) => {
             comentarios,
             gastos,
             presupuesto,
-            ordencompra
+          
         };
 
         

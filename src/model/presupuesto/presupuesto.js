@@ -15,7 +15,7 @@ const schemaPresupuesto = new Schema({
   observation:String,
   patent:String,
   service:String,
-  state:Boolean,
+  state:false,
   date:String, 
   nOrdencompra:String,
   dateRecepcion:String,
