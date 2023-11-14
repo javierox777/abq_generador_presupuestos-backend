@@ -10,7 +10,6 @@ try {
             numero,
             trabajadores,
             supervisor,
-            progress,
             fechaEnd,
             comentarios,
             presupuesto,
@@ -20,10 +19,10 @@ try {
             numero,
             trabajadores,
             supervisor,
-            progress,
+            progress:0,
             comentarios,
             fechaEnd,
-            gastos:0,
+            gastos:[],
             presupuesto,
            
         })
