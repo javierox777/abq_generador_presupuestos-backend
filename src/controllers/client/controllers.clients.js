@@ -1,73 +1,64 @@
-const CLIENT = require("../../model/client/client")
-const ctrls = {}
+const CLIENT = require('../../model/client/client');
+const ctrls = {};
 
-ctrls.allClients = async(req, res)=>{
-const data = await CLIENT.find()
-res.json(
-  data
-)
+ctrls.allClients = async (req, res) => {
+  const data = await CLIENT.find();
+  res.json(data);
+};
 
-}
-
-
-ctrls.createClient = async(req, res)=>{
- try {
-    const {name, rut, phone, address} = req.body
+ctrls.createClient = async (req, res) => {
+  try {
+    const { name, rut, phone, address } = req.body;
     const data = new CLIENT({
-        name,
-        rut,
-        phone, 
-        address
-    })
-    await data.save()
+      name,
+      rut,
+      phone,
+      address,
+    });
+    await data.save();
     res.json({
-       message: "success" ,
-       body:data
-       
-    })
- } catch (error) {
+      message: 'success',
+      body: data,
+    });
+  } catch (error) {
     res.json({
-        message: "error",
-      
-     })
- }
-}
+      message: 'error',
+    });
+  }
+};
 
+ctrls.updateClient = async (req, res) => {
+  try {
+    const data = await CLIENT.findByIdAndUpdate(
+      { _id: req.params.id },
+      req.body,
+      { new: true }
+    );
 
-ctrls.updateClient =async(req, res)=>{
-    try {
-        const data = await CLIENT.findByIdAndUpdate(
-          { _id: req.params.id },
-          req.body,
-          { new: true }
-        );
-    
-        return res.json({
-          message: "success",
-          body: data,
-        });
-      } catch (error) {
-        return res.json({
-          message: "error",
-          body: error,
-        });
-      }
-}
+    return res.json({
+      message: 'success',
+      body: data,
+    });
+  } catch (error) {
+    return res.json({
+      message: 'error',
+      body: error,
+    });
+  }
+};
 
-ctrls.deleteClient = async(req, res)=>{
-try {
-    await CLIENT.findOneAndDelete({_id:req.params.id})
+ctrls.deleteClient = async (req, res) => {
+  try {
+    await CLIENT.findOneAndDelete({ _id: req.params.id });
     res.json({
-        message:"success"
-    })
-
-} catch (error) {
+      message: 'success',
+    });
+  } catch (error) {
     res.json({
-        message:"error",
-        body: error
-    })
-}
+      message: 'error',
+      body: error,
+    });
+  }
+};
 
-}
-
-module.exports = ctrls
+module.exports = ctrls;
