@@ -142,13 +142,13 @@ ctrls.updatePresupuesto = async(req, res)=>{
 
 ctrls.updateAllPresupuesto = async(req, res)=>{
     console.log("id a update", req.body)
-    const { agent, brand,  discount,  modelo, observation, patent, service, date,  formaDePago,
+    const { agent, brand,  discount,taskList,  modelo, observation, patent, service, date,  formaDePago,
         plazoEntrega,
         nInforme,
         faena, } = req.body
 
     const update = await PRESUPUESTO.findOneAndUpdate({ _id:req.params.id},{
-         agent, brand,  discount,  modelo, observation, patent, service, date, formaDePago,
+         agent, brand,  discount,taskList,  modelo, observation, patent, service, date, formaDePago,
         plazoEntrega,
         nInforme,
         faena,
