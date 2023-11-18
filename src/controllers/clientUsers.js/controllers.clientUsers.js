@@ -106,7 +106,7 @@ ctrls.updateUser = async (req, res) => {
 
         {
           name,
-          last,
+          lastname,
           phone,
           email,
           company,
