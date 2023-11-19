@@ -1,7 +1,8 @@
 const mongoose = require("mongoose")
-//const URI = "mongodb+srv://javier:12345@cluster0.n0q4k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const URI = "mongodb+srv://appabqltda:2tTB6FYL9p7XCqq3@abqdb.9nnbqyq.mongodb.net/?retryWrites=true&w=majority"
  //const URI = "mongodb://192.168.0.2:27017/algo"
-const URI ="mongodb://localhost/abq"
+//const URI ="mongodb://localhost/abq"
+
 
 
 mongoose.connect(URI,{
