@@ -11,6 +11,11 @@ const {cronn}= require("./controllers/cron/controllers.cron")
 //setting
 app.set('port', process.env.PORT || 3005);
 
+app.listen(app.get("port"), ()=>{
+  console.log("el servidor esta en el puerto :", app.get("port"))
+    cronn()
+})
+
 //multer
 app.use(express.urlencoded({ extended: false }));
 const storage = multer.diskStorage({
@@ -65,8 +70,5 @@ app.use('/api/clientusers', require('./router/clientUser/router.clientUser'));
 //static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(app.get("port"), ()=>{
-  console.log("el servidor esta en el puerto :", app.get("port"))
-    cronn()
-})
+
 module.exports = app;
