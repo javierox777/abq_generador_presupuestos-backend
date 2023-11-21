@@ -1,4 +1,6 @@
 const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
+var autoIncrement = require('mongoose-sequence')(mongoose);
 
 const schemaSale = new Schema({
   date: String,
@@ -13,7 +15,7 @@ const schemaSale = new Schema({
   ],
   progress: Number,
   fechaEnd: String,
-  ordencompra: { type: Schema.Types.ObjectId, ref: 'ordencompras' },
+  nOrdenCompra: Number,
   presupuesto: { type: Schema.Types.ObjectId, ref: 'presupuestos' },
   gastos: [
     {
@@ -30,5 +32,10 @@ const schemaSale = new Schema({
     },
   ],
 });
+
+schemaSale.plugin(autoIncrement, {
+  id: 'sale_seq',
+  inc_field: 'number',
+}); //auto incremento
 
 module.exports = model('trabajos', schemaSale);
