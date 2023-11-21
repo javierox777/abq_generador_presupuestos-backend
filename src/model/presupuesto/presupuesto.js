@@ -24,6 +24,7 @@ const schemaPresupuesto = new Schema({
   plazoEntrega:String,
   nInforme:String,
   faena:String,
+  rev_nro:String,
   user:{},
   taskList:[],
   totalHours:[]
