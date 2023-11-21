@@ -11,7 +11,7 @@ const {
   
 } = require("../../controllers/presupuesto/controllers.presupesto");
  const Auth = require("../../helper/auth");
- const {CrearPDF} = require("../../controllers/presupuesto/Controller.Crear")
+
 
 
 
@@ -21,7 +21,7 @@ router.get("/allpresupuestos", allPresupuestos);
 router.post("/createpresupuesto", createPresupuesto);
 router.delete("/deletepresupuesto/:id", deletePresupuesto);
 router.get("/getpresupuestoid/:id", getPresupuestoId);
-router.get('/pdf', CrearPDF); 
+
 // router.put("/updateproductimage/:id", updateProductImage)Auth.verificartoken,
 
 module.exports = router;
