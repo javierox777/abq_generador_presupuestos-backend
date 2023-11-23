@@ -13,7 +13,7 @@ const {
 router.put("/updatepresupuesto/:id", updatePresupuesto);
 router.put("/updateallpresupuesto/:id", updateAllPresupuesto);
 router.get("/allpresupuestos", allPresupuestos);
-router.post("/createpresupuesto", createPresupuesto);
+router.post("/createpresupuesto/:id?", createPresupuesto);
 router.delete("/deletepresupuesto/:id", deletePresupuesto);
 router.get("/getpresupuestoid/:id", getPresupuestoId);
 

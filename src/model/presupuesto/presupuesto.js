@@ -5,6 +5,7 @@ var AutoIncrement = require('mongoose-sequence')(mongoose);
 
 
 const schemaPresupuesto = new Schema({
+  version:Number,
   number:Number,
   agent:String,
   brand:String,
@@ -32,7 +33,7 @@ const schemaPresupuesto = new Schema({
 
 }) 
 
-schemaPresupuesto.plugin(AutoIncrement, {id:'number_seq',inc_field: 'number'});//auto incremento
+// schemaPresupuesto.plugin(AutoIncrement, {id:'number_seq',inc_field: 'number'});//auto incremento
 
 
 module.exports = model('presupuestos', schemaPresupuesto);

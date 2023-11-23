@@ -3,48 +3,61 @@ const moment = require('moment');
 const ctrls = {};
 const hoy = moment().format('YYYY-MM-DD');
 
+
 ctrls.createPresupuesto = async (req, res) => {
   try {
-    console.log('presupuesto', req.body);
-    const {
-      agent,
-      brand,
-      discount,
-      rev_nro,
-      client,
-      faena,
-      materialList,
-      modelo,
-      observation,
-      patent,
-      service,
-      state,
-      user,
-      taskList,
-      totalHours,
-      encargado,
-    } = req.body;
+    // Obtener el último presupuesto ordenado por número descendente
+    const latestPresupuesto = await PRESUPUESTO.findOne({}, {}, { sort: { 'number': -1 } });
+
+    // Obtener la última versión para el número dado, si se proporciona un id
+    let lastversionforNumber = null;
+    let nextNumero 
+    let nextVersion 
+
+    if (req.params.id) {
+      lastversionforNumber = await PRESUPUESTO.findOne({ _id: req.params.id });
+     nextNumero = lastversionforNumber ? lastversionforNumber.number  : 1;
+      nextVersion = lastversionforNumber ? lastversionforNumber.version + 1 : 1;
+    }
+
+    // Calcular el siguiente número y versión
+    
+
+    // Si no se proporciona un id, ajustar el número y la versión
+    if (!req.params.id) {
+    
+      nextNumero = latestPresupuesto ? latestPresupuesto.number + 1 : 1;
+      nextVersion = lastversionforNumber ? lastversionforNumber.version + 1 : 1;
+    }
+     
+    // Crear un nuevo presupuesto con el número y la versión calculados
     const data = new PRESUPUESTO({
-      agent,
-      brand,
-      discount,
-      client,
-      faena,
-      rev_nro,
-      materialList,
-      modelo,
-      observation,
-      patent,
-      service,
-      state,
+      version: nextVersion,
+      number: nextNumero,
+      agent: req.body.agent,
+      brand: req.body.brand,
+      discount: req.body.discount,
+      client: req.body.client,
+      faena: req.body.faena,
+      rev_nro: req.body.rev_nro,
+      materialList: req.body.materialList,
+      modelo: req.body.modelo,
+      observation: req.body.observation,
+      patent: req.body.patent,
+      service: req.body.service,
+      state: req.body.state,
       date: moment().format('YYYY-MM-DD'),
-      user,
-      taskList,
-      totalHours,
+      user: req.body.user,
+      taskList: req.body.taskList,
+      totalHours: req.body.totalHours,
       state: false,
-      encargado,
+      encargado: req.body.encargado,
     });
+
+    // Guardar el nuevo presupuesto
     await data.save();
+
+    // Devolver la respuesta
     res.json({
       message: 'success',
       body: data,
@@ -59,20 +72,35 @@ ctrls.createPresupuesto = async (req, res) => {
 
 ctrls.allPresupuestos = async (req, res) => {
   try {
-    const data = await PRESUPUESTO.find()
-      .populate('client')
-      .sort({ number: -1 });
+    const data = await PRESUPUESTO.aggregate([
+      { $sort: { number: -1, version: -1 } },
+      {
+        $group: {
+          _id: '$number',
+          latestVersion: { $first: '$$ROOT' },
+        },
+      },
+      {
+        $replaceRoot: { newRoot: '$latestVersion' },
+      },
+      { $sort: { number: -1 } },
+    ]);
+
+    // Obtener la información del cliente para cada presupuesto
+    const populatedData = await PRESUPUESTO.populate(data, { path: 'client' });
     res.json({
       message: 'Success',
-      body: data,
+      body: populatedData ? populatedData : [],
     });
   } catch (error) {
+    
     res.json({
       message: 'error',
-      body: error,
+      body: [],
     });
   }
 };
+
 
 ctrls.updateTask = async (req, res) => {
   const { description, price } = req.body;
@@ -110,7 +138,7 @@ ctrls.updateTask = async (req, res) => {
 };
 
 ctrls.deletePresupuesto = async (req, res) => {
-  console.log('id a borrar', req.params.id);
+
   try {
     await PRESUPUESTO.findByIdAndDelete({ _id: req.params.id });
     res.json({
@@ -130,7 +158,7 @@ ctrls.getPresupuestoId = async (req, res) => {
 };
 
 ctrls.updatePresupuesto = async (req, res) => {
-  console.log('id a update', req.params.id);
+ 
   const { nOrdencompra, dateVencimientoOC, state, dateRecepcion } = req.body;
 
   const update = await PRESUPUESTO.findOneAndUpdate(
