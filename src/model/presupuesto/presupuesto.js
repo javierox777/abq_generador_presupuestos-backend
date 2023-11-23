@@ -1,8 +1,6 @@
-const  {model, Schema } = require("mongoose")
-const  mongoose = require("mongoose")
+const { model, Schema } = require('mongoose');
+const mongoose = require('mongoose');
 var AutoIncrement = require('mongoose-sequence')(mongoose);
-
-
 
 const schemaPresupuesto = new Schema({
   version:Number,
@@ -37,10 +35,3 @@ const schemaPresupuesto = new Schema({
 
 
 module.exports = model('presupuestos', schemaPresupuesto);
-
-
-
-
-
- 
-
