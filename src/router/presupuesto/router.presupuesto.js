@@ -2,6 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const {
   createPresupuesto,
+  allPresupuestosforNumber,
   allPresupuestos,
   deletePresupuesto,
   getPresupuestoId,
@@ -12,6 +13,7 @@ const {
 
 router.put("/updatepresupuesto/:id", updatePresupuesto);
 router.put("/updateallpresupuesto/:id", updateAllPresupuesto);
+router.get("/allpresupuestosfornumber", allPresupuestosforNumber);
 router.get("/allpresupuestos", allPresupuestos);
 router.post("/createpresupuesto/:id?", createPresupuesto);
 router.delete("/deletepresupuesto/:id", deletePresupuesto);

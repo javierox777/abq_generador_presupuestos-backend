@@ -70,7 +70,7 @@ ctrls.createPresupuesto = async (req, res) => {
   }
 };
 
-ctrls.allPresupuestos = async (req, res) => {
+ctrls.allPresupuestosforNumber = async (req, res) => {
   try {
     const data = await PRESUPUESTO.aggregate([
       { $sort: { number: -1, version: -1 } },
@@ -101,6 +101,20 @@ ctrls.allPresupuestos = async (req, res) => {
   }
 };
 
+ctrls.allPresupuestos = async(req, res)=>{
+  try {
+    const data = await PRESUPUESTO.find().populate('client')
+    res.json({
+      message: 'Success',
+      body: data ? data : [],
+    });
+  } catch (error) {
+    res.json({
+      message: 'error',
+      body: [],
+    });
+  }
+}
 
 ctrls.updateTask = async (req, res) => {
   const { description, price } = req.body;
