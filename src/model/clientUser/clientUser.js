@@ -8,6 +8,7 @@ const clientUserSchema = new Schema({
   password: String,
   company: { type: Schema.Types.ObjectId, ref: 'clients' },
   role: { type: String, default: 'customer' },
+  faena: String,
 });
 
 module.exports = model('cliente', clientUserSchema);

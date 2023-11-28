@@ -26,7 +26,7 @@ ctrls.allClientUsers = async (req, res) => {
 
 ctrls.signUp = async (req, res) => {
   try {
-    const { name, lastname, phone, email, password, company } = req.body;
+    const { name, lastname, phone, email, password, company, faena } = req.body;
 
     const data = new CLIENTUSER({
       name,
@@ -35,6 +35,7 @@ ctrls.signUp = async (req, res) => {
       email,
       password,
       company,
+      faena,
     });
     const userExist = await CLIENTUSER.findOne({ email: email });
     if (userExist) {
@@ -99,7 +100,7 @@ ctrls.login = async (req, res) => {
 ctrls.updateUser = async (req, res) => {
   try {
     if (req.body.password === '' || !req.body.password) {
-      const { name, lastname, email, phone, company } = req.body;
+      const { name, lastname, email, phone, company, faena } = req.body;
 
       const data = await CLIENTUSER.findOneAndUpdate(
         { _id: req.params.id },
@@ -110,6 +111,7 @@ ctrls.updateUser = async (req, res) => {
           phone,
           email,
           company,
+          faena,
         },
         { new: true }
       );
@@ -119,12 +121,21 @@ ctrls.updateUser = async (req, res) => {
         body: data,
       });
     } else {
-      const { name, lastname, email, password, phone, company } = req.body;
+      const { name, lastname, email, password, phone, company, faena } =
+        req.body;
 
       const encryptedPass = await bcrypt.hash(password, 10);
       const data = await CLIENTUSER.findOneAndUpdate(
         { _id: req.params.id },
-        { name, lastname, phone, email, password: encryptedPass, company },
+        {
+          name,
+          lastname,
+          phone,
+          email,
+          password: encryptedPass,
+          company,
+          faena,
+        },
         { new: true }
       );
       await data.save();

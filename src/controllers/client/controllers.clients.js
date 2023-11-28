@@ -8,12 +8,13 @@ ctrls.allClients = async (req, res) => {
 
 ctrls.createClient = async (req, res) => {
   try {
-    const { name, rut, phone, address } = req.body;
+    const { name, rut, phone, address, faenas } = req.body;
     const data = new CLIENT({
       name,
       rut,
       phone,
       address,
+      faenas,
     });
     await data.save();
     res.json({
