@@ -5,7 +5,11 @@ const schemaClient = new Schema({
   rut: String,
   phone: String,
   address: String,
-  faenas: [],
+  faenas: [
+    {
+      name: String,
+    },
+  ],
 });
 
 module.exports = model('clients', schemaClient);
