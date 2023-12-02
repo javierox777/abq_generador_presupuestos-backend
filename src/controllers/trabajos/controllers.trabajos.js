@@ -12,6 +12,7 @@ try {
       fechaEnd,
       comentarios,
       presupuesto,
+      cloudFileId,
     } = req.body;
     const data = new TRABAJO({
       date,
@@ -24,6 +25,7 @@ try {
       fechaEnd,
       gastos: [],
       presupuesto,
+      cloudFileId,
     });
     await data.save();
     res.json({
@@ -163,6 +165,7 @@ ctrls.updateJob = async (req, res) => {
       comentarios,
       gastos,
       presupuesto,
+      cloudFileId,
     } = req.body;
 
     const updateFields = {
@@ -176,6 +179,7 @@ ctrls.updateJob = async (req, res) => {
       comentarios,
       gastos,
       presupuesto,
+      cloudFileId,
     };
 
     Object.keys(updateFields).forEach(

@@ -2,12 +2,13 @@ const { Router } = require("express");
 const router = Router();
 const {
   createOC,
-  allOC
+  allOC,
+  updateOC
  
 } = require("../../controllers/ordenDeCompra/controllers.OrdenCompra");
  const Auth = require("../../helper/auth");
 
-// router.put("/updatepresupuesto/:id", updatePresupuesto);
+ router.put("/updatealloc/:id", updateOC);
 // router.put("/updateallpresupuesto/:id", updateAllPresupuesto);
 router.get("/alloc", allOC);
 router.post("/createoc", createOC);
