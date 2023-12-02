@@ -8,7 +8,10 @@ const schemaOrdenCompra = new mongoose.Schema({
   tableData:[],
   date:String,
   agent:String,
-  Observaciones:String
+  solicitante : String,
+  proyecto:String,
+  Observaciones:String,
+  state:String
  
 
 }) 

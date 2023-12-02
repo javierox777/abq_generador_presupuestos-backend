@@ -57,8 +57,7 @@ app.use(
 );
 //orden de compra
 app.use(
-  '/api/ordencompra/',
-  require('./router/ordenCompra/router.ordenCompra')
+  '/api/ordencompra', require('./router/ordenCompra/router.ordenCompra')
 );
 //supplies
 app.use('/api/supplies', require('./router/supplies/router.supplies'));

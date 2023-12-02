@@ -8,13 +8,17 @@ ctrls.createOC = async (req, res) => {
   try {
     console.log('presupuesto', req.body);
 
-    const { tableData, agent, client, Observaciones } = req.body;
+    const { tableData, agent, client, Observaciones, state, solicitante, proyecto, user } = req.body;
 
     const data = new OC({
       tableData,
       agent,
       client,
       Observaciones,
+      state,
+      solicitante, 
+      proyecto, 
+      user,
 
       date: moment().format('YYYY-MM-DD'),
     });
@@ -104,25 +108,30 @@ ctrls.getPresupuestoId = async (req, res) => {
   res.json(data);
 };
 
-ctrls.updatePresupuesto = async (req, res) => {
-  console.log('id a update', req.params.id);
-  const { nOrdencompra, dateVencimientoOC, state, dateRecepcion } = req.body;
-
-  const update = await PRESUPUESTO.findOneAndUpdate(
-    { _id: req.params.id },
-    {
-      nOrdencompra,
-      dateVencimientoOC,
-      state,
-      dateRecepcion,
-    }
-  );
-
-  res.json({
-    message: 'ok',
-    update,
-  });
+ctrls.updateOC = async (req, res) => {
+  try {
+    console.log('id a update', req.params.id);
+    const { tableData, agent, client, Observaciones, state, solicitante, proyecto, user } = req.body;
+  
+    const data = await OC.findOneAndUpdate({ _id: req.params.id },
+      {
+        tableData, agent, client, Observaciones, state, solicitante, proyecto, user,
+      },
+      { new: true } // Agregué esta opción para devolver el documento actualizado
+    );
+  
+    res.status(200).json({
+      message: 'ok',
+      body: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'error',
+      body: error,
+    });
+  }
 };
+
 
 ctrls.updateAllPresupuesto = async (req, res) => {
   console.log('id a update', req.body);
@@ -139,6 +148,7 @@ ctrls.updateAllPresupuesto = async (req, res) => {
     plazoEntrega,
     nInforme,
     faena,
+    state
   } = req.body;
 
   const update = await PRESUPUESTO.findOneAndUpdate(
@@ -156,6 +166,7 @@ ctrls.updateAllPresupuesto = async (req, res) => {
       plazoEntrega,
       nInforme,
       faena,
+      state
     }
   );
 
