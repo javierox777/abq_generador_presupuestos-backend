@@ -132,6 +132,31 @@ ctrls.updateOC = async (req, res) => {
   }
 };
 
+ctrls.updateStateOC = async (req, res) => {
+  try {
+    console.log('id a update', req.params.id);
+    const { state } = req.body;
+  
+    const data = await OC.findOneAndUpdate({ _id: req.params.id },
+      {
+        state
+      },
+      { new: true } // Agregué esta opción para devolver el documento actualizado
+    );
+  
+    res.status(200).json({
+      message: 'ok',
+      body: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'error',
+      body: error,
+    });
+  }
+};
+
+
 
 ctrls.updateAllPresupuesto = async (req, res) => {
   console.log('id a update', req.body);

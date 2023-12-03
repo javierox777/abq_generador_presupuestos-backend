@@ -3,12 +3,14 @@ const router = Router();
 const {
   createOC,
   allOC,
-  updateOC
+  updateOC,
+  updateStateOC
  
 } = require("../../controllers/ordenDeCompra/controllers.OrdenCompra");
  const Auth = require("../../helper/auth");
 
  router.put("/updatealloc/:id", updateOC);
+ router.put("/updatestateoc/:id", updateStateOC);
 // router.put("/updateallpresupuesto/:id", updateAllPresupuesto);
 router.get("/alloc", allOC);
 router.post("/createoc", createOC);
