@@ -39,8 +39,7 @@ ctrls.createOC = async (req, res) => {
 
 ctrls.allOC = async (req, res) => {
   try {
-    const data = await OC.find().sort({ number: -1 });
-
+    const data = await OC.find().sort({ numero: -1 });
     res.json({
       mmessage: 'success',
       body: data,
