@@ -136,11 +136,11 @@ ctrls.updateOC = async (req, res) => {
 ctrls.updateStateOC = async (req, res) => {
   try {
     console.log('id a update', req.params.id);
-    const { state, admin } = req.body;
+    const { state, admin, gerencia } = req.body;
   
     const data = await OC.findOneAndUpdate({ _id: req.params.id },
       {
-        state, admin
+        state, admin, gerencia
       },
       { new: true } // Agregué esta opción para devolver el documento actualizado
     );
