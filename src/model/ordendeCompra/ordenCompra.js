@@ -12,7 +12,10 @@ const schemaOrdenCompra = new mongoose.Schema({
   solicitante : String,
   proyecto:String,
   Observaciones:String,
-  state:String
+  state:String,
+  adquisiciones:String,
+  gerencia:String,
+  admin:String
  
 
 }) 

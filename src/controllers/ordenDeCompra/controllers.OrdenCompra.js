@@ -8,7 +8,7 @@ ctrls.createOC = async (req, res) => {
   try {
     console.log('presupuesto', req.body);
 
-    const { tableData, agent, client, Observaciones, state, solicitante, proyecto, user } = req.body;
+    const { tableData, agent, client, Observaciones, state, solicitante, proyecto, adquisiciones, gerencia, admin } = req.body;
 
     const data = new OC({
       tableData,
@@ -18,7 +18,9 @@ ctrls.createOC = async (req, res) => {
       state,
       solicitante, 
       proyecto, 
-      user,
+      adquisiciones, 
+      gerencia, 
+      admin,
 
       date: moment().format('YYYY-MM-DD'),
     });
@@ -134,11 +136,11 @@ ctrls.updateOC = async (req, res) => {
 ctrls.updateStateOC = async (req, res) => {
   try {
     console.log('id a update', req.params.id);
-    const { state } = req.body;
+    const { state, admin } = req.body;
   
     const data = await OC.findOneAndUpdate({ _id: req.params.id },
       {
-        state
+        state, admin
       },
       { new: true } // Agregué esta opción para devolver el documento actualizado
     );
