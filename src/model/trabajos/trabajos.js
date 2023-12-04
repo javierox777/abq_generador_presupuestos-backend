@@ -32,6 +32,7 @@ const schemaSale = new Schema({
     },
   ],
   cloudFileId: String,
+  cloudReportId: String,
 });
 
 schemaSale.plugin(autoIncrement, {
