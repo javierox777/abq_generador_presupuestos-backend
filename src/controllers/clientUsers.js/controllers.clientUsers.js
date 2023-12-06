@@ -66,9 +66,11 @@ ctrls.signUp = async (req, res) => {
 };
 
 ctrls.login = async (req, res) => {
+  console.log('entro al login de clientes ');
   try {
     const { email, password } = req.body;
     const user = await CLIENTUSER.findOne({ email: email });
+    console.log('user por aca ', user);
 
     if (!user)
       return res.json({
@@ -84,6 +86,11 @@ ctrls.login = async (req, res) => {
       });
       res.json({
         accessToken: token,
+        user: user._id,
+        name: user.name,
+        role: user.role,
+        company: user.company,
+        faena: user.faena.name,
         user: userWithoutPassword,
         message: 'Bienvenido',
       });
