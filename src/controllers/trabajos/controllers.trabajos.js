@@ -93,6 +93,44 @@ ctrls.allJobs = async (req, res) => {
     });
   }
 };
+
+ctrls.alljobforRole = async (req, res) => {
+  console.log(req.params.company)
+  try {
+    const datas = await TRABAJO.find()
+      .populate({
+        path: 'presupuesto',
+        populate: {
+          path: 'client',
+          model: 'clients',
+        },
+      });
+
+    const data = datas.filter(i => i.presupuesto.client._id == req.params.company);
+    console.log(data)
+
+    if (!data || data.length === 0) {
+      res.status(404).json({
+        message: 'error',
+        body: 'not found',
+      });
+    }
+
+    // Resto del código para enviar la respuesta exitosa
+    res.status(200).json({
+      message: 'success',
+      body: data,
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'error',
+      body: 'internal server error',
+    });
+  }
+};
+
 ctrls.allJobsForIdCliend = async (req, res) => {
   try {
     const data = await TRABAJO.find().populate({
