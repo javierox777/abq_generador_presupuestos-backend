@@ -1,62 +1,54 @@
 const nodemailer = require('nodemailer')
-const PRESUPUESTO   = require("../../model/presupuesto/presupuesto")
-const moment =require("moment")
-require ('moment/locale/es');
+const PRESUPUESTO = require("../../model/presupuesto/presupuesto")
+const moment = require("moment")
+require('moment/locale/es');
 
-var ctrl ={}
+var ctrl = {};
 
+const hoy=moment()
 
-const hoy=moment().format('YYYY-MM-DD')
+const sumardias = 3
 
-ctrl.createMailPresupuesto= async (data) => {
-    console.log("mail data por aca")
-    const Presupuesto = await PRESUPUESTO.findById({_id : data._id})
-    console.log(Presupuesto)
- contentHTML = `
-    Presupuesto que se vencen hoy
-
-         Junto con saludar informo los siguientes trabajos estan con  fecha de hoy para su cobro
-         Numero de presupuesto : ${Presupuesto.number}  
-         Empresa               : ${Presupuesto.client.name}  
+const nuevaFecha = hoy.add(sumardias, 'days');
+const hoyMasTres=nuevaFecha.format('YYYY-MM-DD')
 
 
+ctrl.createMailPresupuesto = async (data) => {
+    console.log("mail data por aca");
+    const Presupuesto = data;
+   console.log("data opr aca",data)
 
-     </ul>
+    const contentHTML = `
+        Presupuesto que se vencen hoy
+    
+        Junto con saludar se informa que el  siguientes trabajo con fecha de termino ${hoyMasTres} esta por vencer 
+        Numero de presupuesto : ${Presupuesto.number}  
+        Empresa               : ${Presupuesto.client.name}    
+    
+   
+    `;
 
- `;
+    let transporter = await nodemailer.createTransport({
+        host: 'mail.abqlimitada.cl',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'gerencia@abqlimitada.cl',
+            pass: 'vicente.2023'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
 
- let transporter =await nodemailer.createTransport({
-     host: 'mail.cycmaquinarias.cl',
-     port: 587,
-     secure: false,
-     auth: {
-         user: 'c.cuadros@cycmaquinarias.cl',
-         pass: 'cuadros.2021'
-     },
-     tls: {
-         rejectUnauthorized: false
-     }
- });
+    let info = await transporter.sendMail({
+        from: '"ABQ gerencia" <gerencia@abqlimitada.cl>',
+        to: 'chimen.chiang@abqlimitada.cl, vicente.chiang@abqlimitada.cl, tomas.aguayo@abqlimitada.cl, patricio.aguayo@abqlimitada.cl, juan.jorquera@abqlimitada.cl, jenny.cisternas@abqlimitada.cl, gerencia@abqlimitada.cl',
+        subject: 'Trabajo por vencer',
+        text: 'reporte' + contentHTML
+    });
 
- let info = await transporter.sendMail({
-     from: '"CyC gerencia" <c.cuadros@cycmaquinarias.cl>', // sender address,
-     to: `c.cuadros@cycmaquinarias.cl`,
-     subject: 'Cobrar orden de compra',
-     text: 'reporte'+
-     contentHTML
- })
-
-
-
-
-
- console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
-
-
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 };
 
-
-
-
-module.exports = ctrl
+module.exports = ctrl;
