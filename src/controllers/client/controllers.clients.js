@@ -20,10 +20,11 @@ ctrls.createClient = async (req, res) => {
 
     faenas.forEach(async (faena) => {
       if (faena.name) {
-        const data = new FAENA({
+        const newFaena = new FAENA({
           name: faena.name,
+          company: data._id,
         });
-        await data.save();
+        await newFaena.save();
       }
     });
 
@@ -41,16 +42,24 @@ ctrls.createClient = async (req, res) => {
 
 ctrls.updateClient = async (req, res) => {
   try {
+    const updatedClient = {
+      name: req.body.name,
+      rut: req.body.rut,
+      phone: req.body.phone,
+      address: req.body.address,
+    };
+
     const data = await CLIENT.findByIdAndUpdate(
       { _id: req.params.id },
-      req.body,
+      updatedClient,
       { new: true }
     );
 
-    faenas.forEach(async (faena) => {
+    req.body.faenas.forEach(async (faena) => {
       if (faena.name) {
         const data = new FAENA({
           name: faena.name,
+          company: req.params.id,
         });
         await data.save();
       }
