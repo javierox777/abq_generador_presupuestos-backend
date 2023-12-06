@@ -67,11 +67,9 @@ ctrls.signUp = async (req, res) => {
 
 ctrls.login = async (req, res) => {
   console.log('entro al login de clientes ');
-  console.log('entro al login de clientes ');
   try {
     const { email, password } = req.body;
     const user = await CLIENTUSER.findOne({ email: email });
-    console.log('user por aca ', user);
     console.log('user por aca ', user);
 
     if (!user)
