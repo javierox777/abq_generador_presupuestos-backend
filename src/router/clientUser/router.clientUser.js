@@ -10,9 +10,6 @@ const {
 const {
   alljobforRole,
 } = require('../../controllers/trabajos/controllers.trabajos');
-const {
-  alljobforRole,
-} = require('../../controllers/trabajos/controllers.trabajos');
 
 router.get('/allclientusers', allClientUsers);
 router.get('/alljobforrole/:company/:faena', alljobforRole);
