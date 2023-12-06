@@ -5,16 +5,16 @@ const morgan = require('morgan');
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-require("./database")
-const {cronn}= require("./controllers/cron/controllers.cron")
+require('./database');
+const { cronn } = require('./controllers/cron/controllers.cron');
 
 //setting
 app.set('port', process.env.PORT || 3005);
 
-app.listen(app.get("port"), ()=>{
-  console.log("el servidor esta en el puerto :", app.get("port"))
-    cronn()
-})
+app.listen(app.get('port'), () => {
+  console.log('el servidor esta en el puerto :', app.get('port'));
+  cronn();
+});
 
 //multer
 app.use(express.urlencoded({ extended: false }));
@@ -56,18 +56,16 @@ app.use(
   require('./router/presupuesto/router.presupuesto')
 );
 //orden de compra
-app.use(
-  '/api/ordencompra', require('./router/ordenCompra/router.ordenCompra')
-);
+app.use('/api/ordencompra', require('./router/ordenCompra/router.ordenCompra'));
 //supplies
 app.use('/api/supplies', require('./router/supplies/router.supplies'));
 //trabajo
 app.use('/api/trabajo', require('./router/trabajo/router.trabajos'));
 //client users(customers)
 app.use('/api/clientusers', require('./router/clientUser/router.clientUser'));
+app.use('/api/faenas', require('./router/faenas/router.faenas'));
 
 //static files
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 module.exports = app;

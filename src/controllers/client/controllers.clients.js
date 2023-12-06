@@ -1,4 +1,5 @@
 const CLIENT = require('../../model/client/client');
+const FAENA = require('../../model/faena/faena');
 const ctrls = {};
 
 ctrls.allClients = async (req, res) => {
@@ -9,13 +10,23 @@ ctrls.allClients = async (req, res) => {
 ctrls.createClient = async (req, res) => {
   try {
     const { name, rut, phone, address, faenas } = req.body;
+
     const data = new CLIENT({
       name,
       rut,
       phone,
       address,
-      faenas,
     });
+
+    faenas.forEach(async (faena) => {
+      if (faena.name) {
+        const data = new FAENA({
+          name: faena.name,
+        });
+        await data.save();
+      }
+    });
+
     await data.save();
     res.json({
       message: 'success',
@@ -35,6 +46,15 @@ ctrls.updateClient = async (req, res) => {
       req.body,
       { new: true }
     );
+
+    faenas.forEach(async (faena) => {
+      if (faena.name) {
+        const data = new FAENA({
+          name: faena.name,
+        });
+        await data.save();
+      }
+    });
 
     return res.json({
       message: 'success',
