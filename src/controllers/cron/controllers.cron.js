@@ -7,21 +7,29 @@ require ('moment/locale/es');
 const ctrls = {}
 
 var fecha = new Date();
-let dia = (fecha.getDay())
 
-// const hoy=moment().format('YYYY/MM/DD')
-const hoy=moment().format('YYYY-MM-DD')
+
+
+ const hoy=moment()
+
+const sumardias = 3
+
+const nuevaFecha = hoy.add(sumardias, 'days');
+const hoyMasTres=nuevaFecha.format('YYYY-MM-DD')
+console.log(hoyMasTres)
 //const hoyMenosUno = moment().subtract(1, 'days').format('YYYY-MM-DD');
 
 
-ctrls.cronn =()=>{ cron.schedule('00 08 * * * ',async ()=>{ // esta linea permite la auto ejecucion de la funcion de cron
+ctrls.cronn =()=>{ cron.schedule('42 21 * * * ', async ()=>{ // esta linea permite la auto ejecucion de la funcion de cron
         console.log("cron funcioando ")
 
-        const Presupuesto = await PRESUPUESTO.find({"dateVencimientoOC" : hoy})
+        const Presupuesto = await PRESUPUESTO.find({"dateVencimientoOC" : hoyMasTres}).where({state:true}).populate('client')
+        console.log(Presupuesto)
         
         Presupuesto.map(async(e)=>{
-            createMailPresupuesto(e._id)
-              console.log("mandando id de user", e._id)
+            createMailPresupuesto(e)
+            console.log()
+             
             }
 
     
