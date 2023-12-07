@@ -12,7 +12,7 @@ const {
 } = require('../../controllers/trabajos/controllers.trabajos');
 
 router.get('/allclientusers', allClientUsers);
-router.get('/alljobforrole/:company/:faena', alljobforRole);
+router.get('/alljobforrole/:faena', alljobforRole);
 router.post('/signup', signUp);
 router.post('/login', login);
 router.put('/updateuser/:id', updateUser);

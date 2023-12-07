@@ -106,20 +106,28 @@ ctrls.allJobs = async (req, res) => {
 ctrls.alljobforRole = async (req, res) => {
   try {
     console.log(req.params);
-    const datas = await TRABAJO.find().populate({
-      path: 'presupuesto',
-      populate: {
-        path: 'client',
-        model: 'clients',
+    const datas = await TRABAJO.find().populate([
+      {
+        path: 'presupuesto',
+        populate: [
+          {
+            path: 'client',
+            model: 'clients',
+          },
+          {
+            path: 'faena',
+            model: 'faenas',
+          },
+        ],
       },
-    });
+    ]);
 
     const data = datas.filter((i) => {
-      return i.presupuesto.faena == req.params.faena;
+      return i.presupuesto.faena._id == req.params.faena;
     });
 
     if (!data || data.length === 0) {
-      res.status(404).json({
+      return res.status(404).json({
         message: 'error',
         body: 'not found',
       });
