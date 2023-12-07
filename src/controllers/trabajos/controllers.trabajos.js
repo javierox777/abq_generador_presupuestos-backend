@@ -104,8 +104,8 @@ ctrls.allJobs = async (req, res) => {
 };
 
 ctrls.alljobforRole = async (req, res) => {
-  console.log(req.params.company);
   try {
+    console.log(req.params);
     const datas = await TRABAJO.find().populate({
       path: 'presupuesto',
       populate: {
@@ -114,10 +114,9 @@ ctrls.alljobforRole = async (req, res) => {
       },
     });
 
-    const data = datas.filter(
-      (i) => i.presupuesto.client._id == req.params.company
-    );
-    console.log(data);
+    const data = datas.filter((i) => {
+      return i.presupuesto.faena == req.params.faena;
+    });
 
     if (!data || data.length === 0) {
       res.status(404).json({
