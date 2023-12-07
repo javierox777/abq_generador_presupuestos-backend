@@ -104,19 +104,20 @@ ctrls.allJobs = async (req, res) => {
 };
 
 ctrls.alljobforRole = async (req, res) => {
-  console.log(req.params.company)
+  console.log(req.params.company);
   try {
-    const datas = await TRABAJO.find()
-      .populate({
-        path: 'presupuesto',
-        populate: {
-          path: 'client',
-          model: 'clients',
-        },
-      });
+    const datas = await TRABAJO.find().populate({
+      path: 'presupuesto',
+      populate: {
+        path: 'client',
+        model: 'clients',
+      },
+    });
 
-    const data = datas.filter(i => i.presupuesto.client._id == req.params.company);
-    console.log(data)
+    const data = datas.filter(
+      (i) => i.presupuesto.client._id == req.params.company
+    );
+    console.log(data);
 
     if (!data || data.length === 0) {
       res.status(404).json({
@@ -130,7 +131,6 @@ ctrls.alljobforRole = async (req, res) => {
       message: 'success',
       body: data,
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({
