@@ -83,16 +83,12 @@ ctrls.login = async (req, res) => {
     const hashedPassword = await bcrypt.compare(password, user.password);
     if (hashedPassword) {
       const { password, ...userWithoutPassword } = user.toObject(); // Exclude password
+      const { password, ...userWithoutPassword } = user.toObject(); // Exclude password
       const token = jwt.sign({ _id: user._id }, 'algunaclave', {
         expiresIn: '1 days',
       });
       res.json({
         accessToken: token,
-        user: user._id,
-        name: user.name,
-        role: user.role,
-        company: user.company,
-        faena: user.faena.name,
         user: userWithoutPassword,
         message: 'Bienvenido',
       });
