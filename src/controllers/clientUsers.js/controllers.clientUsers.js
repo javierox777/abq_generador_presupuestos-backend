@@ -5,7 +5,10 @@ const ctrls = {};
 
 ctrls.allClientUsers = async (req, res) => {
   try {
-    const data = await CLIENTUSER.find().populate('company');
+    const data = await CLIENTUSER.find().populate([
+      { path: 'company' },
+      { path: 'faena' },
+    ]);
     if (!data) {
       res.status(404).json({
         message: 'error',
