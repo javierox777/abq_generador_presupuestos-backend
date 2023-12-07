@@ -44,9 +44,10 @@ try {
 
 ctrls.findJobById = async (req, res) => {
   try {
-    const data = await TRABAJO.findById({ _id: req.params.id }).populate(
-      'presupuesto'
-    );
+    const data = await TRABAJO.findById({ _id: req.params.id }).populate([
+      { path: 'presupuesto' },
+      { path: 'faena' },
+    ]);
     if (!data) {
       res.status(404).json({
         message: 'error',
@@ -68,13 +69,21 @@ ctrls.findJobById = async (req, res) => {
 
 ctrls.allJobs = async (req, res) => {
   try {
-    const data = await TRABAJO.find().populate({
-      path: 'presupuesto',
-      populate: {
-        path: 'client',
-        model: 'clients',
+    const data = await TRABAJO.find().populate([
+      {
+        path: 'presupuesto',
+        populate: [
+          {
+            path: 'client',
+            model: 'clients',
+          },
+          {
+            path: 'faena',
+            model: 'faenas',
+          },
+        ],
       },
-    });
+    ]);
     if (!data) {
       res.status(404).json({
         message: 'error',
@@ -95,22 +104,30 @@ ctrls.allJobs = async (req, res) => {
 };
 
 ctrls.alljobforRole = async (req, res) => {
-  console.log(req.params.company)
   try {
-    const datas = await TRABAJO.find()
-      .populate({
+    console.log(req.params);
+    const datas = await TRABAJO.find().populate([
+      {
         path: 'presupuesto',
-        populate: {
-          path: 'client',
-          model: 'clients',
-        },
-      });
+        populate: [
+          {
+            path: 'client',
+            model: 'clients',
+          },
+          {
+            path: 'faena',
+            model: 'faenas',
+          },
+        ],
+      },
+    ]);
 
-    const data = datas.filter(i => i.presupuesto.client._id == req.params.company);
-    console.log(data)
+    const data = datas.filter((i) => {
+      return i.presupuesto.faena._id == req.params.faena;
+    });
 
     if (!data || data.length === 0) {
-      res.status(404).json({
+      return res.status(404).json({
         message: 'error',
         body: 'not found',
       });
@@ -121,7 +138,6 @@ ctrls.alljobforRole = async (req, res) => {
       message: 'success',
       body: data,
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -133,13 +149,18 @@ ctrls.alljobforRole = async (req, res) => {
 
 ctrls.allJobsForIdCliend = async (req, res) => {
   try {
-    const data = await TRABAJO.find().populate({
-      path: 'presupuesto',
-      populate: {
-        path: 'client',
-        model: 'clients',
+    const data = await TRABAJO.find().populate([
+      {
+        path: 'presupuesto',
+        populate: [
+          {
+            path: 'client',
+            model: 'clients',
+          },
+          { path: 'faena', model: 'faenas' },
+        ],
       },
-    });
+    ]);
 
     const filteredData = data.filter((element) => {
       return (

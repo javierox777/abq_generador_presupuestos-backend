@@ -1,4 +1,5 @@
 const CLIENT = require('../../model/client/client');
+const FAENA = require('../../model/faena/faena');
 const ctrls = {};
 
 ctrls.allClients = async (req, res) => {
@@ -9,13 +10,24 @@ ctrls.allClients = async (req, res) => {
 ctrls.createClient = async (req, res) => {
   try {
     const { name, rut, phone, address, faenas } = req.body;
+
     const data = new CLIENT({
       name,
       rut,
       phone,
       address,
-      faenas,
     });
+
+    faenas.forEach(async (faena) => {
+      if (faena.name) {
+        const newFaena = new FAENA({
+          name: faena.name,
+          company: data._id,
+        });
+        await newFaena.save();
+      }
+    });
+
     await data.save();
     res.json({
       message: 'success',
@@ -30,11 +42,28 @@ ctrls.createClient = async (req, res) => {
 
 ctrls.updateClient = async (req, res) => {
   try {
+    const updatedClient = {
+      name: req.body.name,
+      rut: req.body.rut,
+      phone: req.body.phone,
+      address: req.body.address,
+    };
+
     const data = await CLIENT.findByIdAndUpdate(
       { _id: req.params.id },
-      req.body,
+      updatedClient,
       { new: true }
     );
+
+    req.body.faenas.forEach(async (faena) => {
+      if (faena.name) {
+        const data = new FAENA({
+          name: faena.name,
+          company: req.params.id,
+        });
+        await data.save();
+      }
+    });
 
     return res.json({
       message: 'success',
