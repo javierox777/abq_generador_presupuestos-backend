@@ -48,6 +48,8 @@ app.use('/api/product', require('./router/producto/router.producto'));
 app.use('/api/sale', require('./router/sale/router.sale'));
 //client
 app.use('/api/client', require('./router/client/router.client'));
+//providers
+app.use('/api/provider', require('./router/provider/router.provider'));
 //task
 app.use('/api/task', require('./router/task/router.task'));
 //presupuesto
