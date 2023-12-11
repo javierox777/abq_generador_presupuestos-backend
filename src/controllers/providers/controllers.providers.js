@@ -2,8 +2,18 @@ const PROVIDER = require('../../model/provider/provider');
 const ctrls = {};
 
 ctrls.allProviders = async (req, res) => {
-  const data = await PROVIDER.find();
-  res.json(data);
+  try {
+    const data = await PROVIDER.find();
+    res.json({
+      message: 'success',
+      body: data,
+    });
+  } catch (error) {
+    res.json({
+      message: 'Error',
+      body: error,
+    });
+  }
 };
 
 ctrls.createProvider = async (req, res) => {
