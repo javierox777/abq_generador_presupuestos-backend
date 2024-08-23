@@ -18,6 +18,7 @@ ctrls.createOC = async (req, res) => {
       proyecto,
       adquisiciones,
       gerencia,
+      paymentOption,
       admin,
     } = req.body;
 
@@ -44,6 +45,7 @@ ctrls.createOC = async (req, res) => {
       body: data,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: 'error',
       body: error,
@@ -59,6 +61,7 @@ ctrls.allOC = async (req, res) => {
       body: data,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: 'Error',
       body: error,
