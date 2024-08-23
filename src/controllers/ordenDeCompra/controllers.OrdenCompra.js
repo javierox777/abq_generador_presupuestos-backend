@@ -8,7 +8,18 @@ ctrls.createOC = async (req, res) => {
   try {
     console.log('presupuesto', req.body);
 
-    const { tableData, agent, client, Observaciones, state, solicitante, proyecto, adquisiciones, gerencia, admin } = req.body;
+    const {
+      tableData,
+      agent,
+      client,
+      Observaciones,
+      state,
+      solicitante,
+      proyecto,
+      adquisiciones,
+      gerencia,
+      admin,
+    } = req.body;
 
     const data = new OC({
       tableData,
@@ -16,11 +27,12 @@ ctrls.createOC = async (req, res) => {
       client,
       Observaciones,
       state,
-      solicitante, 
-      proyecto, 
-      adquisiciones, 
-      gerencia, 
+      solicitante,
+      proyecto,
+      adquisiciones,
+      gerencia,
       admin,
+      paymentOption,
 
       date: moment().format('YYYY-MM-DD'),
     });
@@ -112,15 +124,32 @@ ctrls.getPresupuestoId = async (req, res) => {
 ctrls.updateOC = async (req, res) => {
   try {
     console.log('id a update', req.params.id);
-    const { tableData, agent, client, Observaciones, state, solicitante, proyecto, user } = req.body;
-  
-    const data = await OC.findOneAndUpdate({ _id: req.params.id },
+    const {
+      tableData,
+      agent,
+      client,
+      Observaciones,
+      state,
+      solicitante,
+      proyecto,
+      user,
+    } = req.body;
+
+    const data = await OC.findOneAndUpdate(
+      { _id: req.params.id },
       {
-        tableData, agent, client, Observaciones, state, solicitante, proyecto, user,
+        tableData,
+        agent,
+        client,
+        Observaciones,
+        state,
+        solicitante,
+        proyecto,
+        user,
       },
       { new: true } // Agregué esta opción para devolver el documento actualizado
     );
-  
+
     res.status(200).json({
       message: 'ok',
       body: data,
@@ -137,14 +166,17 @@ ctrls.updateStateOC = async (req, res) => {
   try {
     console.log('id a update', req.params.id);
     const { state, admin, gerencia } = req.body;
-  
-    const data = await OC.findOneAndUpdate({ _id: req.params.id },
+
+    const data = await OC.findOneAndUpdate(
+      { _id: req.params.id },
       {
-        state, admin, gerencia
+        state,
+        admin,
+        gerencia,
       },
       { new: true } // Agregué esta opción para devolver el documento actualizado
     );
-  
+
     res.status(200).json({
       message: 'ok',
       body: data,
@@ -156,8 +188,6 @@ ctrls.updateStateOC = async (req, res) => {
     });
   }
 };
-
-
 
 ctrls.updateAllPresupuesto = async (req, res) => {
   console.log('id a update', req.body);
@@ -174,7 +204,7 @@ ctrls.updateAllPresupuesto = async (req, res) => {
     plazoEntrega,
     nInforme,
     faena,
-    state
+    state,
   } = req.body;
 
   const update = await PRESUPUESTO.findOneAndUpdate(
@@ -192,7 +222,7 @@ ctrls.updateAllPresupuesto = async (req, res) => {
       plazoEntrega,
       nInforme,
       faena,
-      state
+      state,
     }
   );
 
@@ -201,4 +231,43 @@ ctrls.updateAllPresupuesto = async (req, res) => {
     update,
   });
 };
+
+ctrls.updateAllOC = async (req, res) => {
+  const {
+    tableData,
+    agent,
+    client,
+    Observaciones,
+    state,
+    solicitante,
+    proyecto,
+    adquisiciones,
+    gerencia,
+    admin,
+    paymentOption,
+  } = req.body;
+
+  const update = await OC.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      tableData,
+      agent,
+      client,
+      Observaciones,
+      state,
+      solicitante,
+      proyecto,
+      adquisiciones,
+      gerencia,
+      admin,
+      paymentOption,
+    }
+  );
+
+  res.json({
+    message: 'ok',
+    body: update,
+  });
+};
+
 module.exports = ctrls;
