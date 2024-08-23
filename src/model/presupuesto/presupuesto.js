@@ -27,6 +27,7 @@ const schemaPresupuesto = new Schema({
   user: {},
   taskList: [],
   totalHours: [],
+  paymentOption: String,
 });
 
 // schemaPresupuesto.plugin(AutoIncrement, {id:'number_seq',inc_field: 'number'});//auto incremento

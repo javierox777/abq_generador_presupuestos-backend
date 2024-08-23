@@ -53,6 +53,7 @@ ctrls.createPresupuesto = async (req, res) => {
       totalHours: req.body.totalHours,
       state: false,
       encargado: req.body.encargado,
+      paymentOption: req.body.paymentOption,
     });
 
     // Guardar el nuevo presupuesto
@@ -211,6 +212,7 @@ ctrls.updateAllPresupuesto = async (req, res) => {
     plazoEntrega,
     nInforme,
     faena,
+    paymentOption,
   } = req.body;
 
   const update = await PRESUPUESTO.findOneAndUpdate(
@@ -230,6 +232,7 @@ ctrls.updateAllPresupuesto = async (req, res) => {
       plazoEntrega,
       nInforme,
       faena,
+      paymentOption,
     }
   );
 
